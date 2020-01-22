@@ -17,15 +17,15 @@ app.use(jwt({
 const challenge = 'sign this string'
 
 app.get('/challenge', (req, res) => {
-  res.json({challenge})
+  res.json({ challenge })
 })
 
 app.get('/verify', async (req, res) => {
   const { address, signature } = req.auth
 
-  const data = '0x'+Buffer.from(challenge).toString('hex')
+  const data = '0x' + Buffer.from(challenge).toString('hex')
   const verified = await verifySignature(address, data, signature)
-  res.json({verified})
+  res.json({ verified })
 })
 
 const port = process.env.PORT || 8000
@@ -34,30 +34,30 @@ app.listen(port, () => {
   console.log(`Listening on port ${port}`)
 })
 
-async function verifySignature(account, data, signature) {
+async function verifySignature (account, data, signature) {
   const eip1271Abi = [
     {
-      "constant": true,
-      "inputs": [
+      constant: true,
+      inputs: [
         {
-          "name": "_messageHash",
-          "type": "bytes"
+          name: '_messageHash',
+          type: 'bytes'
         },
         {
-          "name": "_signature",
-          "type": "bytes"
+          name: '_signature',
+          type: 'bytes'
         }
       ],
-      "name": "isValidSignature",
-      "outputs": [
+      name: 'isValidSignature',
+      outputs: [
         {
-          "name": "magicValue",
-          "type": "bytes4"
+          name: 'magicValue',
+          type: 'bytes4'
         }
       ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
+      payable: false,
+      stateMutability: 'view',
+      type: 'function'
     }
   ]
 
@@ -69,4 +69,3 @@ async function verifySignature(account, data, signature) {
 
   return verified
 }
-

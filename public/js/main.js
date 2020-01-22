@@ -1,11 +1,17 @@
+// elements
+
 const loginButton = document.getElementById('login')
 const logoutButton = document.getElementById('logout')
 const verifyButton = document.getElementById('verify')
 const output = document.getElementById('output')
 
+// provider
+
 const authereum = new Authereum('kovan')
 const provider = authereum.getProvider()
 const web3 = new Web3(provider)
+
+// events
 
 loginButton.addEventListener('click', async (event) => {
   event.preventDefault()
@@ -27,11 +33,11 @@ verifyButton.addEventListener('click', async (event) => {
   log(res)
 })
 
-;(() => {
-  loginCheck()
-})();
+loginCheck()
 
-async function login() {
+// helpers
+
+async function login () {
   if (!await authereum.isAuthenticated()) {
     await authereum.login()
   }
@@ -39,21 +45,21 @@ async function login() {
   await loginCheck()
 }
 
-async function loginCheck() {
+async function loginCheck () {
   const loggedIn = await authereum.isAuthenticated()
-  log({loggedIn})
+  log({ loggedIn })
 
   loginButton.style.display = loggedIn ? 'none' : 'inline-block'
   logoutButton.style.display = loggedIn ? 'inline-block' : 'none'
-  verifyButton.style.display =  loggedIn ? 'inline-block' : 'none'
+  verifyButton.style.display = loggedIn ? 'inline-block' : 'none'
 }
 
-async function logout() {
+async function logout () {
   await authereum.logout()
   await loginCheck()
 }
 
-async function signChallenge() {
+async function signChallenge () {
   const res = await fetch('/challenge')
   const json = await res.json()
 
@@ -74,16 +80,16 @@ async function signChallenge() {
   localStorage.setItem('token', token)
 }
 
-async function verifyToken() {
+async function verifyToken () {
   const token = localStorage.getItem('token')
   if (!token) {
-    return {error: 'token not set'}
+    return { error: 'token not set' }
   }
 
   const res = await fetch('/verify', {
     headers: {
       'content-type': 'application/json',
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`
     }
   })
 
@@ -91,7 +97,7 @@ async function verifyToken() {
   return json
 }
 
-function log(content) {
+function log (content) {
   if (typeof content === 'object') {
     content = JSON.stringify(content, null, 2)
   }
