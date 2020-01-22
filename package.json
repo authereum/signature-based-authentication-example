@@ -1,0 +1,24 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "Example",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "authereum": "0.0.4-beta.75",
+    "cors": "^2.8.5",
+    "ethers": "^4.0.43",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1"
+  },
+  "devDependencies": {
+    "browserify": "^16.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "standard": "^14.3.1"
+  }
+}
